@@ -1,5 +1,6 @@
 package se.lexicon.dao.impl;
 
+import org.springframework.stereotype.Component;
 import se.lexicon.dao.TransactionDao;
 import se.lexicon.model.Transaction;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class TransactionDaoImpl implements TransactionDao {
 
     List<Transaction> storage;

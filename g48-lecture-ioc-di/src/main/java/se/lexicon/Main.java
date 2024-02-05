@@ -2,10 +2,6 @@ package se.lexicon;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import se.lexicon.config.AppConfig;
-import se.lexicon.dao.TransactionDao;
-import se.lexicon.dao.WalletDao;
-import se.lexicon.dao.impl.TransactionDaoImpl;
-import se.lexicon.dao.impl.WalletDaoImpl;
 import se.lexicon.model.CryptoCurrency;
 import se.lexicon.model.Transaction;
 import se.lexicon.model.Wallet;
