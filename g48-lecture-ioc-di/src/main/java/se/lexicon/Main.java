@@ -1,5 +1,7 @@
 package se.lexicon;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import se.lexicon.config.AppConfig;
 import se.lexicon.dao.TransactionDao;
 import se.lexicon.dao.WalletDao;
 import se.lexicon.dao.impl.TransactionDaoImpl;
@@ -16,12 +18,11 @@ import java.math.BigDecimal;
 
 public class Main {
     public static void main(String[] args) {
-        WalletDao walletDao = new WalletDaoImpl();
-        TransactionDao transactionDao  = new TransactionDaoImpl();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
 
-        WalletManagement walletManagement = new WalletManagementImpl(walletDao);
-        TransactionManagement transactionManagement = new TransactionManagementImpl(walletDao, transactionDao);
+        WalletManagement walletManagement = context.getBean(WalletManagementImpl.class);
+        TransactionManagement transactionManagement = context.getBean(TransactionManagementImpl.class);
 
         Wallet wallet = walletManagement.create("simons-wallet");
 
@@ -48,10 +49,5 @@ public class Main {
         );
 
         System.out.println(walletManagement.getById(wallet.getId()));
-
-
-        transactionDao.findTransactionsByWalletId(wallet.getId()).forEach(System.out::println);
-
-
     }
 }

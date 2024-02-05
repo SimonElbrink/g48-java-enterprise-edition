@@ -1,5 +1,7 @@
 package se.lexicon.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.lexicon.dao.WalletDao;
 import se.lexicon.exception.WalletNotFoundException;
 import se.lexicon.exception.WalletValidationException;
@@ -9,11 +11,14 @@ import se.lexicon.service.WalletManagement;
 import java.util.Optional;
 
 // Where business logic happens, Connection to other services, Auth, Validation ....
+@Component
 public class WalletManagementImpl implements WalletManagement {
 
     //Dependency
     private WalletDao walletDao;
 
+    //Dependency
+    @Autowired
     public WalletManagementImpl(WalletDao walletDao) {
         this.walletDao = walletDao;
     }
