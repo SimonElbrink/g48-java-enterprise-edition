@@ -19,8 +19,7 @@ public class Student {
 
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY) // For id number generations
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator") // TODO - Deprecated 6.2?
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Setter
