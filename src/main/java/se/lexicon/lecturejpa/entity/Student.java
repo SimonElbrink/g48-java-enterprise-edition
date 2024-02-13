@@ -38,4 +38,12 @@ public class Student {
 //    @Column(name = "_STATUS") // Custom Name in Table
     private boolean status;
     private LocalDateTime createDate;
+
+    public Student(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.createDate = LocalDateTime.now();
+    }
+
 }
