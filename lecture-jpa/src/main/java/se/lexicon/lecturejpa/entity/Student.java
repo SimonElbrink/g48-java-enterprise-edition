@@ -14,6 +14,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 
+@NamedQuery(name = "findByStatus", query = "SELECT s FROM Student s where s.status = ?1")
 //@Entity(name = "TBL_STUDENTS")
 @Entity
 public class Student {

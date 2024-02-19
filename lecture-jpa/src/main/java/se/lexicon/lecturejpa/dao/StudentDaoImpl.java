@@ -39,8 +39,27 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
+    public Student findByEmailIgnoreCase(String email) {
+        return entityManager.createQuery("SELECT s FROM Student s WHERE UPPER(s.email) = UPPER(:em) ", Student.class)
+                .setParameter("em", email)
+                .getSingleResult();
+    }
+
+    @Override
+    public boolean isStudentStatusTrue(String studentId) {
+        return false; // TODO: Implement Methods
+    }
+
+    @Override
+    public Collection<Student> findByStatusTrue() {
+        return entityManager.createNamedQuery("findByStatus", Student.class)
+                .setParameter(1, true)
+                .getResultList();
+    }
+
+    @Override
     public Collection<Student> findByFirstNameContains(String firstName) {
-        return null; // TODO - Implement this method...
+        return null; // TODO: Implement Methods
     }
 
     @Override
@@ -53,6 +72,14 @@ public class StudentDaoImpl implements StudentDao {
     @Transactional
     public void update(Student student) {
         entityManager.merge(student);
+    }
+
+    @Transactional
+    @Override
+    public void updateStudentStatusToTrue(String studentId) {
+        entityManager.createQuery("UPDATE Student s SET s.status = true WHERE s.id = :studentId")
+                .setParameter("studentId", studentId)
+                .executeUpdate();
     }
 
     @Override
