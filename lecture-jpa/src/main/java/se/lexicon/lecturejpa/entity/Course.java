@@ -24,6 +24,18 @@ public class Course {
     @JoinColumn(name = "student_id")
     private Student student;
 
+    @ManyToMany
+    @JoinTable(
+            name = "Courses_Instructors",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "instructor_id")
+    )
+    private Set<Instructor> instructors = new HashSet<>();
+
+
+    //more fields, ex, students grade, documents?
+
+
     public Course(String courseName) {
         this.courseName = courseName;
     }
