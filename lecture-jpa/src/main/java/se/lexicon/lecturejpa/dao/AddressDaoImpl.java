@@ -10,9 +10,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Component
-public class AddressDaoImpl implements AddressDao{
+public class AddressDaoImpl implements AddressDao {
 
-    // todo: implement crud operations of the address dao interface
 
     @PersistenceContext
     EntityManager entityManager;
@@ -26,21 +25,29 @@ public class AddressDaoImpl implements AddressDao{
 
     @Override
     public Optional<Address> findById(Long id) {
-        return Optional.empty();
+        Address address = entityManager.find(Address.class, id);
+        return Optional.ofNullable(address);
     }
 
     @Override
     public Collection<Address> findAll() {
-        return null;
+        return entityManager.createQuery("SELECT a FROM Address a", Address.class)
+                .getResultList();
     }
 
+    @Transactional
     @Override
     public void update(Address address) {
-
+        entityManager.merge(address);
     }
 
+    @Transactional
     @Override
     public void remove(Long id) {
+        Address address = entityManager.find(Address.class, id);
+        if (address != null) {
+            entityManager.remove(address);
+        }
 
     }
 }
