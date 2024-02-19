@@ -3,6 +3,7 @@ package se.lexicon.lecturejpa.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.repository.cdi.Eager;
 
 import java.time.LocalDateTime;
 
@@ -39,7 +40,7 @@ public class Student {
     private LocalDateTime createDate;
 
     @Setter
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
 

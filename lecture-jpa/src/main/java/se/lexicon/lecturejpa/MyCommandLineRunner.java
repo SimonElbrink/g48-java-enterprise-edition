@@ -20,10 +20,10 @@ public class MyCommandLineRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Address address = new Address("SomeStreet1","SomeCity", "123456");
-        addressDao.persist(address);
 
         Student student = new Student("test", "Testsson","Test@Test.te");
         student.setAddress(address);
+
         studentDao.persist(student);
 
         studentDao.findAll().forEach(System.out::println);
