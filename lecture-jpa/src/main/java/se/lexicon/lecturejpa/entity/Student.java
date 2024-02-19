@@ -2,10 +2,10 @@ package se.lexicon.lecturejpa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.repository.cdi.Eager;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 //@Data
 @Getter
@@ -44,11 +44,28 @@ public class Student {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    //One Student can be part of many courses.
+    @OneToMany(mappedBy = "student", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private Set<Course> courses = new HashSet<>();
+
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.createDate = LocalDateTime.now();
     }
+
+    //Convenience Methods
+
+    public void addCourse(Course course){
+        courses.add(course);
+        course.setStudent(this);
+    }
+
+    public void removeCourse(Course course){
+        courses.remove(course);
+        course.setStudent(null);
+    }
+
 
 }
