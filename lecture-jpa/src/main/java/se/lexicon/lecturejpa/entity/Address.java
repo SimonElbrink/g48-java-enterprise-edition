@@ -18,7 +18,7 @@ public class Address {
     private Long id;
 
     @Column(nullable = false)
-    private String Street;
+    private String street;
 
     private String city;
 
@@ -29,7 +29,7 @@ public class Address {
     private Student student;
 
     public Address(String street, String city, String zipCode) {
-        Street = street;
+        this.street = street;
         this.city = city;
         this.zipCode = zipCode;
     }
