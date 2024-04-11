@@ -2,10 +2,13 @@ package se.lexicon.todoapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.lexicon.todoapi.domain.dto.PersonDTOView;
 import se.lexicon.todoapi.domain.dto.TaskDTOForm;
 import se.lexicon.todoapi.domain.dto.TaskDTOView;
+import se.lexicon.todoapi.domain.entity.Person;
 import se.lexicon.todoapi.domain.entity.Task;
 import se.lexicon.todoapi.exception.DataNotFoundException;
+import se.lexicon.todoapi.repository.PersonRepository;
 import se.lexicon.todoapi.repository.TaskRepository;
 
 import java.time.LocalDate;
@@ -16,32 +19,44 @@ import java.util.stream.Collectors;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final PersonRepository personRepository;
 
     @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository) {
+    public TaskServiceImpl(PersonRepository personRepository, TaskRepository taskRepository) {
+        this.personRepository = personRepository;
         this.taskRepository = taskRepository;
     }
 
     @Override
     public TaskDTOView create(TaskDTOForm taskDTOForm) {
         // Create a new Task entity using the DTO
+        Person matchingPerson = personRepository.findById(taskDTOForm.getPerson().getId())
+                .orElseThrow(() -> new DataNotFoundException("No Person matching that ID"));
+
         Task task = Task.builder()
                 .title(taskDTOForm.getTitle())
                 .description(taskDTOForm.getDescription())
                 .deadline(taskDTOForm.getDeadline())
                 .done(taskDTOForm.isDone())
+                .person(matchingPerson)
                 .build();
 
         // Save the created entity to the database
         Task savedTask = taskRepository.save(task);
 
         // Convert the saved entity to a DTO
+        PersonDTOView builtPersonView = PersonDTOView.builder()
+                .id(savedTask.getPerson().getId())
+                .name(savedTask.getPerson().getName())
+                .build();
+
         return TaskDTOView.builder()
                 .id(savedTask.getId())
                 .title(savedTask.getTitle())
                 .description(savedTask.getDescription())
                 .deadline(savedTask.getDeadline())
                 .done(savedTask.isDone())
+                .person(builtPersonView)
                 .build();
     }
 

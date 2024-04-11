@@ -51,6 +51,7 @@ public class PersonServiceImpl implements PersonService{
     @Transactional
     public PersonDTOView update(PersonDTOForm personDtoForm) {
         Person person = personRepository.findById(personDtoForm.getId()).orElseThrow(() -> new DataNotFoundException("Person Id is not valid."));
+        person.setName(personDtoForm.getName());
         return PersonDTOView.builder().id(person.getId()).name(person.getName()).build();
     }
 
